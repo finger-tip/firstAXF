@@ -1,0 +1,73 @@
+{% load static from staticfiles %}
+<!--上面的是将静态的文件导入，静态的文件在settings中已经配置了，是使用STATICFILES_DIRS配置的
+将文件导入才能都进行使用简写是：{% load staticfiles %}-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/bootstrap.min.css'%}" />
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/swiper.min.css'%}" />
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/reset.css'%}" />
+<link rel="stylesheet" type="text/css" href="{% static 'main/css/base.css'%}" />
+
+<script type="text/javascript" charset="utf-8" src="{% static 'main/js/jquery-3.1.1.min.js' %}"></script>
+<script type="text/javascript" charset="utf-8" src="{% static 'main/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" charset="utf-8" src="{% static 'main/js/swiper.min.js' %}"></script>
+<script type="text/javascript" charset="utf-8" src="{% static 'main/js/base.js' %}"></script>
+
+    <!--这个是预留一个样式导入的位置，留给子类使用-->
+{% block linkscript %}
+{% endblock linkscript %}
+
+</head>
+<body>
+    <header>
+
+
+    </header>
+
+    <div>
+        <!--留下一个内容的位置，留给父类使用-->
+        {% block base%}
+        {% endblock base%}
+
+    </div>
+
+    <footer>
+        <a calss="home" href="/home/">
+            <dl>
+                <dt><span></span></dt>
+                <dd>主页</dd>
+            </dl>
+        </a>
+
+        <!--点击闪送默认跳转到热销榜，使用下面的ID进行匹配-->
+        <a class="market" href="/market/104749/0/0/">
+            <dl>
+                <dt><span></span></dt>
+                <dd>闪送超市</dd>
+            </dl>
+        </a>
+
+
+        <a class="cart" href="/cart/">
+            <dl>
+                <dt><span></span></dt>
+                <dd>购物车</dd>
+            </dl>
+        </a>
+
+
+        <a class="mine" href="/mine/">
+            <dl>
+                <dt><span></span></dt>
+                <dd>我的</dd>
+            </dl>
+        </a>
+    </footer>
+</body>
+</html>

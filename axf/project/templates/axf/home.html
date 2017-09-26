@@ -1,0 +1,149 @@
+{% extends 'axf/base.html' %}
+<!--继承base父模板-->
+{% load static from staticfiles %}
+<!--上面的是将静态的文件导入，静态的文件在settings中已经配置了，是使用STATICFILES_DIRS配置的
+将文件导入才能都进行使用简写是：{% load staticfiles %}-->
+
+{% block linkscript %}
+<!--从父类中留下的空位中 将子类独有的样式将他填上-->
+    <link rel="stylesheet" type="text/css" href="{% static 'home/css/home.css'%}" />
+    <script type="text/javascript" charset="utf-8" src="{% static 'home/js/home.js' %}"></script>
+{% endblock linkscript %}
+
+
+<{% block base %}
+
+<div id="home">
+
+    <!--添加首个轮播-->
+    <section class="swiper-container" id="topSwiper">  <!--section 是一个框架，用来放轮播的，样式设置是，如果超过了这个框架就隐藏-->
+        <div class="swiper-wrapper">
+            {% for item in wheelsList %}          <!--因为不知道有几个图片，所以写一个循环，将所有的图片加载上来，数据来自于view-->
+            <div class="swiper-slide">          <!--view去数据库中去查询，使用objects.all()将对应的所有的数据查到，返回 使用.img调用图片-->
+                <a href="#"><img src="{{item.img}}" /></a>
+            </div>
+            {% endfor %}
+        </div>
+        <!--这个是轮播下面的点，使用这个div就不在要自己手动添加了-->
+        <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
+    </section>
+
+<!--使用数据添加，将数据库中的文件一次添加到网页上只是一些菜单参数，图片加数字静态的-->
+    <section class="topMenu">
+        <nav>
+            <ul>
+
+                {% for item in navList %}
+                <li>
+                    <a href="#">
+                        <img src="{{item.img}}"/>
+                        <span>{{item.name}}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+            <!--使用轮播将图片 一开始没有将图片显示成功的原因是，
+            没有将js 的文件实现，默认一张图片将会沾满全屏幕
+            -->
+    <menu class="swiper-container swiperMenu" id="swiperMenu">
+
+        <ul class="swiper-wrapper">
+             {% for item in mustbuyList %}
+            <li class="swiper-slide">
+                <a><img src="{{item.img}}" /></a>
+            </li>
+            {% endfor %}
+        </ul>
+    </menu>
+
+    </section>
+
+
+
+<!--下面就是一些静态的文件，将一些数据添加到网页中-->
+
+
+    <!--这个是便利商店的一些HTML的代码-->
+    <section class="CVS">
+    <h2>
+        <img src="{{shop1.img}}" alt="{{shop1.name}}"/>
+    </h2>
+        <!--元素可将表单内的相关元素分组。在此我认为并没有起到什么作用，只是区分-->
+    <fieldset>
+        {% for x in shop2 %}
+            <a href="#">
+                <img src="{{x.img}}" alt="{{x.name}}"/>
+                <!--alt是如果图片失效了，那么就显示alt上的文字-->
+            </a>
+        {% endfor %}
+    </fieldset>
+    <ul>
+        {% for x in shop3 %}
+            <li>
+                <a href="#">
+                    <img src="{{x.img}}" />
+                    <span>{{x.name}}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    <ol>
+        {% for x in shop4 %}
+            <li><a href="#"><img src="{{x.img}}" alt="{{x.name}}"/></a></li>
+        {% endfor %}
+    </ol>
+</section>
+
+
+<!--这个是最后的的一些代码，将一些水果推送-->
+<!--使用循环,将数据库中需要推送的文件推送出来,一次就是一个完整的推送类型的列表-->
+<section class="mainInfo">
+    {% for item in mainList%}
+        <section>
+            <h3>
+                {{item.name}}
+                <a ui-sref="#">更多></a>
+                <span></span>
+            </h3>
+            <div>
+                <a href="#"><img src="{{item.img}}" alt="item.name"/></a>
+            </div>
+            <ul>
+                <li>
+                    <a href="#">
+                        <img src="{{item.img1}}"/>
+                        <span class="description">{{item.longname1}}</span>
+                        <span>￥{{item.price1}}</span>
+                        <s>￥{{item.marketprice1}}</s>
+                    </a>
+                    <button><span>&#43;</span></button>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="{{item.img2}}"/>
+                        <span class="description">{{item.longname2}}</span>
+                        <span>￥{{item.price2}}</span>
+                        <s>￥{{item.marketprice2}}</s>
+                    </a>
+                    <button><span>&#43;</span></button>
+                </li>
+                <li>
+                    <a href="#">
+                        <img src="{{item.img3}}"/>
+                        <span class="description">{{item.longname3}}</span>
+                        <span>￥{{item.price3}}</span>
+                        <s>￥{{item.marketprice3}}</s>
+                    </a>
+                    <button><span>&#43;</span></button>
+                </li>
+            </ul>
+        </section>
+    {% endfor %}
+</section>
+</div>
+
+{% endblock base %}
+
+

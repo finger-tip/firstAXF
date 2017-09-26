@@ -1,0 +1,97 @@
+{% extends 'axf/base.html' %}
+{% load static from staticfiles %}
+{% block linkscript %}
+    <link rel="stylesheet" type="text/css" href="{% static 'market/css/market.css'%}" />
+    <script type="text/javascript" charset="utf-8" src="{% static 'market/js/market.js' %}"></script>
+{% endblock linkscript %}
+
+
+{% block base %}
+    <div id ="market">
+        <aside>
+            <menu>
+                <ul>
+                    {% for item in leftSlider %}
+                    <li>
+                        <span class="yellowSlide"></span>
+                        <!--/market/{{item.typeid}}/-->
+                        <!--使用这个超链接，每次点击就会发生跳转，改变URL跳转到相应界面-->
+                        <!--0默认的是全部的分类，1,2这样的分类依次像后面进行加-->
+                        <a href="/market/{{item.typeid}}/0/0/">{{item.typename}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </menu>
+        </aside>
+
+
+        <!--y右边的部分-->
+        <section>
+            <nav>
+                <ul>
+                    <li><span id="alltypebtn">全部类型<span class="glyphicon glyphicon-chevron-down" style="font-weight: 100"></span></span></li>
+                    <li><span id="showsortbtn">综合排序<span class="glyphicon glyphicon-chevron-down" style="font-weight: 100"></span></span></li>
+                </ul>
+            </nav>
+
+
+
+            <menu>    <!--这个ul是将商品的图片展示出来-->
+                <ul>
+                    {% for item in productList %}
+                    <li>
+                        <a href="#">
+                            <img src="{{item.productimg}}"/>
+                            <article class="shoppingInfo">
+                                <h6>{{item.productlongname}}</h6>
+                                <p class="detailTag"><span>精选</span><span>{{item.pedesc}}</span></p>
+                                <span class="unit">{{item.specifics}}</span>
+                                <p class="price"><span>￥{{item.price}}</span><s><span>￥{{item.marketprice}}</span></s>
+                                </p>
+                            </article>
+                        </a>
+                        <!--加减商品的按钮-->
+                        <section>
+                            <button ga="{{item.productid}}" class="subShopping">-</button>
+                            <!--使用item来添加商品的 数量，如果有值就显示，没有就默认是0-->
+                            <span id="{{item.productid}}">{{item.num|default:0}}</span>
+                            <button ga="{{item.productid}}" class="addShopping">+</button>
+                        </section>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+
+                 <div id = "typediv">
+                     <div>
+                    {% for item in childList %}
+                         <!--使用连接跳转到全部分类下的具体分类中
+                         categoryid是获取总组的ID
+                         childId是获取切割过后具体的ID，直接进入对应具体分类中
+                         获得跳转的路径-->
+                    <a href="/market/{{categoryid}}/{{item.childId}}/0/"><span>{{item.childName}}</span></a>
+                    {% endfor %}
+                     </div>
+                </div>
+
+                     <!--排序的div-->
+            <div id="sortdiv">
+                <div>
+                    <!--{% for item in titlelist %}-->
+                    <!--<a class="sorta"><span>{{item.title}}</span></a>-->
+                    <!--{% endfor %}-->
+                    <a href="/market/{{categoryid}}/{{cid}}/0/" class="sorta"><span>综合排序</span></a>
+                    <a href="/market/{{categoryid}}/{{cid}}/1/" class="sorta"><span>销量排序</span></a>
+                    <a href="/market/{{categoryid}}/{{cid}}/2/" class="sorta"><span>价格最低</span></a>
+                    <a href="/market/{{categoryid}}/{{cid}}/3/" class="sorta"><span>价格最高</span></a>
+                </div>
+            </div>
+
+                </menu>
+        </section>
+
+
+
+
+    </div>
+{% endblock base %}
